@@ -5,14 +5,16 @@ const app = express();
 app.use(express.json());
 
 // connect to local hardhat node
-const provider = new ethers.providers.JsonRpcProvider("http://127.0.0.1:8545");
-
+const provider = new ethers.providers.JsonRpcProvider("http://localhost:8545", {
+  name: "hardhat",
+  chainId: 31337
+});
 // use private key from Hardhat node (Account #0)
 const privateKey = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
 const wallet = new ethers.Wallet(privateKey, provider);
 
 // your deployed contract
-const contractAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
+const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 
 // ABI from artifacts
 const abi = require("../artifacts/contracts/TreatmentLogger.sol/TreatmentLogger.json").abi;
@@ -46,6 +48,38 @@ app.get("/treatments", async (req, res) => {
   }));
 
   res.json(formatted);
+});
+app.get("/bill/:patientId", async (req, res) => {
+  try {
+    const patientId = req.params.patientId;
+
+    const data = await contract.getAllTreatments();
+
+    let total = 0;
+    let breakdown = [];
+
+    data.forEach(t => {
+      if (t.patientId === patientId) {
+        const cost = parseInt(t.cost.toString());
+
+        total += cost;
+
+        breakdown.push({
+          service: t.service,
+          cost: cost
+        });
+      }
+    });
+
+    res.json({
+      patientId,
+      total,
+      breakdown
+    });
+
+  } catch (err) {
+    res.status(500).send(err.toString());
+  }
 });
 
 app.listen(3000, () => {

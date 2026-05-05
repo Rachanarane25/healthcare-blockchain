@@ -15,14 +15,6 @@ contract TreatmentLogger {
 
     mapping(uint => Treatment) public treatments;
 
-    event TreatmentAdded(
-        uint id,
-        string patientId,
-        string service,
-        uint cost,
-        uint timestamp
-    );
-
     function addTreatment(
         string memory _patientId,
         string memory _service,
@@ -33,14 +25,6 @@ contract TreatmentLogger {
         treatmentCount++;
 
         treatments[treatmentCount] = Treatment(
-            treatmentCount,
-            _patientId,
-            _service,
-            _cost,
-            block.timestamp
-        );
-
-        emit TreatmentAdded(
             treatmentCount,
             _patientId,
             _service,
