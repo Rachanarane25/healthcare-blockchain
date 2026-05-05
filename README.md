@@ -1,4 +1,37 @@
+# 📌 PROJECT ROADMAP — Healthcare Blockchain System
 
-# healthcare-blockchain
-Blockchain-based healthcare billing and fraud prevention system
->>>>>>> c14ed3302c8e8cd16b651deb258a07d966ba5882
+---
+
+## 🟢 Phase 1: Blockchain Setup & Treatment Logging ✅
+
+### Goals:
+
+* Create smart contract
+* Store treatments on blockchain
+* Connect backend to blockchain
+
+### Completed:
+
+* Smart contract (TreatmentLogger.sol)
+* Deployment using Hardhat
+* Backend API integration
+* Add & fetch treatments
+
+---
+
+## 🟡 Phase 2: Billing System ✅
+
+### Goals:
+
+* Calculate patient bills
+* Aggregate treatment costs
+* Provide breakdown
+
+### Completed:
+
+* /bill/:patientId API
+* Cost aggregation logic
+* Structured output
+
+---
+
